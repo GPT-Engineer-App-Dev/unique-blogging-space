@@ -1,10 +1,12 @@
-import { Box, Container, Flex, Heading, Text, VStack, HStack, Link, Spacer, Button, Image } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Text, VStack, HStack, Link, Spacer, Button, Image, useColorModeValue } from "@chakra-ui/react";
 import { FaTwitter, FaGithub, FaLinkedin } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 const Index = () => {
   const [posts, setPosts] = useState([]);
+  const bg = useColorModeValue("white", "gray.800");
+  const color = useColorModeValue("black", "white");
 
   useEffect(() => {
     const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
@@ -12,7 +14,7 @@ const Index = () => {
   }, []);
 
   return (
-    <Box>
+    <Box bg={bg} color={color}>
       {/* Navigation Bar */}
       <Box as="nav" bg="brand.800" color="white" py={4}>
         <Container maxW="container.lg">
