@@ -1,7 +1,16 @@
-import { Box, Container, Flex, Heading, Text, VStack, HStack, Link, Spacer } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Text, VStack, HStack, Link, Spacer, Button, Image } from "@chakra-ui/react";
 import { FaTwitter, FaGithub, FaLinkedin } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 const Index = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+    setPosts(storedPosts);
+  }, []);
+
   return (
     <Box>
       {/* Navigation Bar */}
@@ -11,9 +20,10 @@ const Index = () => {
             <Heading as="h1" size="lg">My Blog</Heading>
             <Spacer />
             <HStack spacing={4}>
-              <Link href="#home" color="white">Home</Link>
-              <Link href="#about" color="white">About</Link>
-              <Link href="#contact" color="white">Contact</Link>
+              <Link as={RouterLink} to="/" color="white">Home</Link>
+              <Link as={RouterLink} to="/about" color="white">About</Link>
+              <Link as={RouterLink} to="/contact" color="white">Contact</Link>
+              <Button as={RouterLink} to="/add-post" colorScheme="teal" size="sm">Add Post</Button>
             </HStack>
           </Flex>
         </Container>
@@ -29,14 +39,13 @@ const Index = () => {
           <Box>
             <Heading as="h3" size="lg">Latest Posts</Heading>
             <VStack spacing={4} mt={4} align="start">
-              <Box p={5} shadow="md" borderWidth="1px" width="100%">
-                <Heading as="h4" size="md">Post Title 1</Heading>
-                <Text mt={2}>This is a brief summary of the first post...</Text>
-              </Box>
-              <Box p={5} shadow="md" borderWidth="1px" width="100%">
-                <Heading as="h4" size="md">Post Title 2</Heading>
-                <Text mt={2}>This is a brief summary of the second post...</Text>
-              </Box>
+              {posts.map((post, index) => (
+                <Box key={index} p={5} shadow="md" borderWidth="1px" width="100%">
+                  <Heading as="h4" size="md">{post.title}</Heading>
+                  <Text mt={2}>{post.content}</Text>
+                  {post.image && <Image src={post.image} alt={post.title} mt={4} />}
+                </Box>
+              ))}
             </VStack>
           </Box>
         </VStack>
