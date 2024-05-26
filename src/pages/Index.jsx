@@ -13,6 +13,12 @@ const Index = () => {
     setPosts(storedPosts);
   }, []);
 
+  const handleDelete = (index) => {
+    const updatedPosts = posts.filter((_, i) => i !== index);
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+    setPosts(updatedPosts);
+  };
+
   return (
     <Box bg={bg} color={color}>
       {/* Navigation Bar */}
@@ -46,6 +52,7 @@ const Index = () => {
                   <Heading as="h4" size="md">{post.title}</Heading>
                   <Text mt={2}>{post.content}</Text>
                   {post.image && <Image src={post.image} alt={post.title} mt={4} />}
+                  <Button colorScheme="red" size="sm" mt={4} onClick={() => handleDelete(index)}>Delete</Button>
                 </Box>
               ))}
             </VStack>
